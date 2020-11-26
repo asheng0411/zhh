@@ -1,0 +1,140 @@
+###ThymeLeaf配置
+spring:
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 500MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url:  jdbc:mysql://localhost:3306/quartzbd?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+      username: root
+      password: root
+      #初始化大小，最小，最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      #连接等待超时时间
+      max-wait: 30000
+      #配置检测可以关闭的空闲连接间隔时间
+      time-between-eviction-runs-millis: 60000
+      #配置连接在池中的最小生存时间
+      min-evictable-idle-time-millis: 300000
+      #用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用。
+      validation-query: select 'X'
+      #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-while-idle: true
+      #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-on-return: false
+      #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      pool-prepared-statements: false
+      max-open-prepared-statements: 20
+      #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+      max-pool-prepared-statement-per-connection-size: 20
+      #Spring监控AOP切入点，如x.y.z.service.*,配置多个英文逗号分隔
+      aop-patterns: com.xj.demo.servie.*
+      #合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      #配置监控统计拦截的filters
+      filter:
+        #监控统计用的filter:stat
+        stat:
+          enabled: true
+          merge-sql: true
+          log-slow-sql: true
+          #配置SQL慢的标准，执行时间超过slowSqlMillis的就是慢
+          slow-sql-millis: 5000
+        #防御sql注入的filter:wall
+        wall:
+          enabled: true
+          config:
+            #是否允许执行DELETE语句
+            delete-allow: true
+            #是否允许修改表
+            drop-table-allow: true
+        slf4j:
+          enabled: true
+          statement-executable-sql-log-enable: true
+          #所有Statement相关的日志
+          statement-log-enabled: false
+  ### quartz 配置 strat
+  quartz:
+    #相关属性配置
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: clusteredScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            #isClustered: false
+            #clusterCheckinInterval: 10000
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+    #数据库方式
+    job-store-type: jdbc
+
+### quartz 配置 end
+
+  ### 整合redis
+  redis:
+    #port: 6379
+    #host: 192.168.136.133 # 需要换成linux下的ip地址
+    database: 0
+    password:
+    cluster:
+       max-redirects: 3
+       nodes:
+            192.168.136.133:7000,
+            192.168.136.133:7001,
+            192.168.136.133:7002,
+            192.168.136.133:7003,
+            192.168.136.133:7004,
+            192.168.136.133:7005
+    lettuce:
+      pool:
+        max-active:  100 # 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 100 # 连接池中的最大空闲连接
+        min-idle: 50 # 连接池中的最小空闲连接
+        max-wait: 6000 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+    timeout: 1000
+    ###整合redis  END
+
+  profiles:
+    active: dev #激活日志环境
+
+logging:
+  config: classpath:logback-spring.xml
+
+mybatis:
+  ###实体类类所在包路径
+  type-aliases-package: cn.bdqn.entity
+
+  ###映射文件所在路径
+  mapper-locations: mybatis/mapper/*Mapper.xml
+
+
+
+
+

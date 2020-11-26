@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <fieldset>
+        <legend>单文件上传</legend>
+        <div>
+            <form action="/fileUpload" enctype="multipart/form-data" method="post">
+                <input type="file" name="file">
+                <br />
+                <button>提 交</button>
+            </form>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>多文件上传</legend>
+        <div>
+            <form action="/manyFileUpload" enctype="multipart/form-data" method="post">
+                <input type="file" name="files">
+                <br />
+                <input type="file" name="files">
+                <br />
+                <input type="file" name="files">
+                <br />
+                <button>提 交</button>
+            </form>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>文件下载</legend>
+        <div>
+            <form action="/fileDownload"  method="post">
+                <input type="text" name="fileName">
+                <br />
+                <button>提 交</button>
+            </form>
+        </div>
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.mapper.BooksMapper">
+    <sql id="sql">bookid,bookname,bookcounts,detail</sql>
+    <sql id="sql2">bookname,bookcounts,detail</sql>
+
+    <select id="selAll" parameterType="map" resultType="Books">
+        select <include refid="sql"></include> from books limit #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selAlll" resultType="Books">
+        select <include refid="sql"></include> from books
+    </select>
+
+    <select id="selBookname" parameterType="string" resultType="Books">
+        SELECT <include refid="sql"></include> FROM books
+    <where>
+        <if test="Bookname != null and Bookname != ''">
+             bookname LIKE <bind name="Bookname" value="'%' + Bookname + '%'" /> #{Bookname}
+        </if>
+    </where>
+
+</select>
+
+    <select id="selCount" resultType="int">
+        select count(*) from books
+    </select>
+
+    <delete id="delBook" parameterType="int">
+        delete from books where bookid=#{bookid}
+    </delete>
+
+    <update id="updBook" parameterType="Books">
+        update books
+        <set>
+            <if test="bookname!=null and bookname!=''">
+             bookname=#{bookname},
+            </if>
+            <if test="bookcounts!=null and bookcounts!=''">
+                bookcounts=#{bookcounts},
+            </if>
+            <if test="detail!=null and detail!=''">
+                detail=#{detail},
+            </if>
+        </set>
+        WHERE bookid=#{bookid}
+    </update>
+
+    <insert id="addBook" parameterType="Books">
+        insert into books(<include refid="sql2"></include>)values(#{bookname},#{bookcounts},#{detail})
+    </insert>
+</mapper>

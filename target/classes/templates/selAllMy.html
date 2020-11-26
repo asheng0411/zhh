@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书信息</title>
+    <style>
+        table{
+            width: 1400px;
+            border: 1px red solid;
+        }
+        table tr td{
+            font-size: 20px;
+        }
+        table tr td{
+            height: 80px;
+            border: 1px red solid;
+        }
+        table tr td a{
+            color:red;
+            text-decoration:none;
+        }
+        table tr td a:hover{
+            color:blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<table cellpadding="0" cellspacing="0" align="center">
+    <tr>
+        <th align="center" colspan="8"><h1>图书信息管理</h1></th>
+    </tr>
+
+    <tr align="center">
+        <td align="center" colspan="2"><a href="add">上架图书</a></td>
+        <td align="center" colspan="3">
+        <form action="/My/selBookname" method="get">
+                按书名查询：<input type="text" name="Bookname" id="Bookname">
+                <input type="submit" value="查询">
+        </form>
+        </td>
+    </tr>
+    <tr align="center">
+        <td th:text="图书编号"></td>
+        <td th:text="图书名称"></td>
+        <td th:text="图书数量"></td>
+        <td th:text="图书描述"></td>
+        <td th:text="操作"></td>
+    </tr>
+    <tr th:each="b : ${books}" style="text-align: center">
+        <td th:text="${b.bookid}"></td>
+        <td th:text="${b.bookname}"></td>
+        <td th:text="${b.bookcounts}"></td>
+        <td th:text="${b.detail}"></td>
+        <td>
+            <a th:href="@{/My/delBook(bookid=${b.bookid})}" onclick="return confirm('确定要下架该图书吗？')">下架图书</a></br></br>
+            <a th:href="@{/My/upd(bookid=${b.bookid},bookname=${b.bookname},bookcounts=${b.bookcounts },detail=${b.detail })}">修改信息</a>
+        </td>
+    </tr>
+</table>
+<div align="center">
+    <input th:if="${pageNum==1 }"  type="button" value="上一页" disabled="disabled" style="font-size: 18px"  />
+    <a th:if="${pageNum!=1 }" th:href="@{/My/selAlll(pageNum=${pageNum}-1)}" ><input type="button"  value="上一页" style="font-size: 18px"/></a>
+
+    <span th:each="c : ${#numbers.sequence(1,count)}">
+        <a th:if="${c==pageNum}" th:text="${c}"><input type="button" disabled="disabled" ></a>
+        <a th:href="@{/My/selAlll(pageNum=${c})}" th:if="${c!=pageNum}" th:text="${c}"></a>
+    </span>
+
+    <input type="button" value="下一页" disabled="disabled" style="font-size: 18px" th:if="${pageNum==count}" />
+    <a th:href="@{/My/selAlll(pageNum=${pageNum}+1)}" th:if="${pageNum!=count }"><input type="button"  value="下一页" style="font-size: 18px"/></a>
+
+    <span th:text="'总页数'+${count}"></span>
+</div>
+</body>
+</html>

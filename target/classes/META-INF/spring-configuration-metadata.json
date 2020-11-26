@@ -1,0 +1,57 @@
+{
+  "groups": [
+    {
+      "name": "books",
+      "type": "cn.bdqn.entity.Books",
+      "sourceType": "cn.bdqn.entity.Books"
+    },
+    {
+      "name": "emp",
+      "type": "cn.bdqn.entity.Emp",
+      "sourceType": "cn.bdqn.entity.Emp"
+    }
+  ],
+  "properties": [
+    {
+      "name": "books.bookcounts",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.bdqn.entity.Books"
+    },
+    {
+      "name": "books.bookid",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.bdqn.entity.Books"
+    },
+    {
+      "name": "books.bookname",
+      "type": "java.lang.String",
+      "sourceType": "cn.bdqn.entity.Books"
+    },
+    {
+      "name": "books.detail",
+      "type": "java.lang.String",
+      "sourceType": "cn.bdqn.entity.Books"
+    },
+    {
+      "name": "emp.address",
+      "type": "java.lang.String",
+      "sourceType": "cn.bdqn.entity.Emp"
+    },
+    {
+      "name": "emp.deptno",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.bdqn.entity.Emp"
+    },
+    {
+      "name": "emp.empno",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.bdqn.entity.Emp"
+    },
+    {
+      "name": "emp.ename",
+      "type": "java.lang.String",
+      "sourceType": "cn.bdqn.entity.Emp"
+    }
+  ],
+  "hints": []
+}
