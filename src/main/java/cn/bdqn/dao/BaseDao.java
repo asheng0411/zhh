@@ -11,7 +11,7 @@ public class BaseDao {
 	private String user="root";//数据库用户名
 	private String pwd="root";//数据库密码
 	/**
-	 * 获取连接对象的方法#########################
+	 * 获取连接对象的方法
 	 */
 	public Connection getConnection(){
 		Connection conn=null;
